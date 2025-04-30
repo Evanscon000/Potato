@@ -1,0 +1,17 @@
+#spring.application.name=Potato
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/potato-app
+    driver-class-name: org.postgresql.Driver
+    username: potato
+    password: potato
+  flyway:
+    enabled: true
+    locations: classpath:db.migration
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+server:
+  port: 8080
