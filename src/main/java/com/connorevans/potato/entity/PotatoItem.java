@@ -21,12 +21,12 @@ public class PotatoItem {
     private double potatoPriceAtConversion;
     private LocalDateTime timestamp;
 
-    public PotatoItem(String name, double hourlyPay, double hoursPerWeek, double potatoPriceAtConversion, LocalDateTime timestamp) {
+    public PotatoItem(String name, double hourlyPay, double hoursPerWeek, double potatoPriceAtConversion) {
         this.name = name;
         this.hourlyPay = hourlyPay;
         this.hoursPerWeek = hoursPerWeek;
         this.potatoPriceAtConversion = potatoPriceAtConversion;
-        this.timestamp = timestamp;
+        this.timestamp = LocalDateTime.now();
     }
 
     public PotatoItem() {
