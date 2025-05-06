@@ -21,7 +21,6 @@ beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
 afterAll(() => server.close());
 afterEach(() => server.resetHandlers());
 
-// object reused in tests
 const dummy: PotatoItem = {
     id: 1,
     name: "Connor",
