@@ -13,11 +13,16 @@ export default function LandingPage() {
 
     return (
         <>
-            <h1>Potato Wage Converter 🥔</h1>
+            <h1>Potato App</h1>
             <PotatoForm onCreate={item => setItems(prev => [...prev, item])} />
-            <PotatoTable items={items} />
+            <PotatoTable
+                items={items}
+                onSave={(u) => setItems((prev) => prev.map(p => p.id === u.id ? u : p))}
+                onDelete={(id) => setItems((prev) => prev.filter(p => p.id !== id))}
+            />
 
-            <Link to="/invest">See how to invest your potatoes ➡️</Link>
+
+            <Link to="/invest">Click here to learn how anyone can buy their time back </Link>
         </>
     );
 }

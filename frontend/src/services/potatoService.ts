@@ -10,7 +10,7 @@ export interface PotatoItem {
 }
 
 // Base URL is proxied in vite.config.ts:  /api http://localhost:8080
-const BASE = "api/potatoes";
+const BASE = "/api/potatoes";
 
 
 // POST

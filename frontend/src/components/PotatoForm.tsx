@@ -1,3 +1,7 @@
+// src/components
+
+// potatoForm.tsx
+
 import { useState } from "react";
 import { createPotatoItem, PotatoItem } from "../services/potatoService";
 
@@ -27,7 +31,8 @@ export default function PotatoForm({ onCreate }: Props) {
             <input value={name}        onChange={e => setName(e.target.value)}        placeholder="Name" />
             <input value={hourlyPay}   onChange={e => setHourlyPay(+e.target.value)}  placeholder="Hourly Pay" type="number" />
             <input value={hoursPerWeek}onChange={e => setHoursPerWeek(+e.target.value)}placeholder="Hours / Week" type="number" />
-            <button type="submit">Convert to Potatoes 🥔</button>
+            <button type="submit">Convert to Potatoes </button>
         </form>
     );
 }
+
