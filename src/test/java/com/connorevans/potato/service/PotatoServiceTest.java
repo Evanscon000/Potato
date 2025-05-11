@@ -32,9 +32,9 @@ public class PotatoServiceTest {
 
 @BeforeEach
 void setUp() {
-    potatoItem1 = new PotatoItem("Connor", 40d, 50d, 1.50);
+    potatoItem1 = new PotatoItem("Connor", 40d, 50d, 1.50, "Junior");
     potatoItem1.setId(1L);
-    potatoItem2 = new PotatoItem("Dan", 60d, 40d, 1.50);
+    potatoItem2 = new PotatoItem("Dan", 60d, 40d, 1.50, "Senior");
     potatoItem2.setId(2L);
     }
 
@@ -84,7 +84,7 @@ void setUp() {
     @Test
     void canUpdatePotatoItemUsingID() {
     // arrange
-    PotatoItem updatedItem = new PotatoItem("Connor", 50d, 60, 1.75);
+    PotatoItem updatedItem = new PotatoItem("Connor", 50d, 60, 1.75, "Intermediate");
     updatedItem.setId(1L);
 
     when(potatoItemRepository.findById(1L)).thenReturn(Optional.of(potatoItem1));

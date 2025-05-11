@@ -39,8 +39,8 @@ class PotatoControllerTest {
 
     @BeforeEach
     void setUp() {
-        potato1 = new PotatoItem("Connor", 40d, 50d, 1.50);
-        potato2 = new PotatoItem("Dan",    60d, 40d, 1.50);
+        potato1 = new PotatoItem("Connor", 40d, 50d, 1.50, "Junior");
+        potato2 = new PotatoItem("Dan",    60d, 40d, 1.50, "Senior");
         potato1.setId(1L);
         potato2.setId(2L);
 
@@ -77,7 +77,7 @@ class PotatoControllerTest {
 
     @Test
     void shouldUpdatePotatoById() throws Exception {
-        PotatoItem updated = new PotatoItem("Connor", 50d, 60d, 1.75);
+        PotatoItem updated = new PotatoItem("Connor", 50d, 60d, 1.75, "Junior");
         updated.setId(1L);
 
         when(potatoService.updatePotatoItemById(eq(1L), any(PotatoItem.class)))

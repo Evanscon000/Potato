@@ -6,14 +6,14 @@ import {
     deletePotatoItem,
 } from "../services/potatoService";
 
+/** props from LandingPage */
 type Props = {
     items: PotatoItem[];
-    onSave: (updated: PotatoItem) => void;   // LandingPage replaces row
-    onDelete: (id: number) => void;          // LandingPage filters row out
+    onSave: (updated: PotatoItem) => void;
+    onDelete: (id: number) => void;
 };
 
 export default function PotatoTable({ items, onSave, onDelete }: Props) {
-    // local edit
     const [editingId, setEditingId] = useState<number | null>(null);
     const [draft, setDraft] = useState<PotatoItem | null>(null);
 
@@ -24,18 +24,19 @@ export default function PotatoTable({ items, onSave, onDelete }: Props) {
             <thead>
             <tr>
                 <th>Name</th>
-                <th>$/hr</th>
-                <th>Potatoes/hr</th>
-                <th style={{ width: "90px" }} />
+                <th>$ / hr</th>
+                <th>Potato's / hr</th>
+                <th>Type</th>
+                <th>Experience</th>
+                <th style={{ width: 90 }} />
             </tr>
             </thead>
 
             <tbody>
             {items.map((p) =>
                 editingId === p.id ? (
-
-                    // EDIT
-                    <tr key={p.id}>
+                    // EDIT ROW
+                    <tr key={`edit-${p.id}`}>
                         <td>
                             <input
                                 value={draft!.name}
@@ -44,6 +45,7 @@ export default function PotatoTable({ items, onSave, onDelete }: Props) {
                                 }
                             />
                         </td>
+
                         <td>
                             <input
                                 type="number"
@@ -53,14 +55,59 @@ export default function PotatoTable({ items, onSave, onDelete }: Props) {
                                 }
                             />
                         </td>
+
                         <td>
                             {(draft!.hourlyPay / draft!.potatoPriceAtConversion).toFixed(1)}
                         </td>
+
+                         {/*radio buttons employment type (rubric) */}
+                        <td>
+                            <label>
+                                <input
+                                    type="radio"
+                                    name={`employmentType-${p.id}`}
+                                    value="Hourly"
+                                    checked={draft!.employmentType === "Hourly"}
+                                    onChange={() =>
+                                        setDraft({ ...draft!, employmentType: "Hourly" })
+                                    }
+                                />
+                                H
+                            </label>
+                            <label style={{ marginLeft: "0.5rem" }}>
+                                <input
+                                    type="radio"
+                                    name={`employmentType-${p.id}`}
+                                    value="Salary"
+                                    checked={draft!.employmentType === "Salary"}
+                                    onChange={() =>
+                                        setDraft({ ...draft!, employmentType: "Salary" })
+                                    }
+                                />
+                                S
+                            </label>
+                        </td>
+
+                         {/*select experience level drop down (rubric)*/}
+                        <td>
+                            <select
+                                value={draft!.experienceLevel}
+                                onChange={(e) =>
+                                    setDraft({ ...draft!, experienceLevel: e.target.value })
+                                }
+                            >
+                                <option value="Junior">Junior</option>
+                                <option value="Intermediate">Intermediate</option>
+                                <option value="Senior">Senior</option>
+                            </select>
+                        </td>
+
                         <td>
                             <button
                                 onClick={async () => {
+                                    // send update → backend, bubble result up
                                     const saved = await updatePotatoItem(p.id!, draft!);
-                                    onSave(saved);            // update parent state
+                                    onSave(saved);
                                     setEditingId(null);
                                 }}
                                 title="Save"
@@ -73,18 +120,21 @@ export default function PotatoTable({ items, onSave, onDelete }: Props) {
                         </td>
                     </tr>
                 ) : (
-                    //READ-ONLY ROW
-                    <tr key={p.id}>
+                    // READ-ONLY ROW
+                    <tr
+                        key={`${p.id}-${p.employmentType}-${p.experienceLevel}-${p.hourlyPay}`}
+                    >
                         <td>{p.name}</td>
                         <td>{p.hourlyPay.toFixed(2)}</td>
-                        <td>
-                            {(p.hourlyPay / p.potatoPriceAtConversion).toFixed(1)}
-                        </td>
+                        <td>{(p.hourlyPay / p.potatoPriceAtConversion).toFixed(1)}</td>
+                        <td>{p.employmentType}</td>
+                        <td>{p.experienceLevel}</td>
+
                         <td>
                             <button
                                 onClick={() => {
                                     setEditingId(p.id!);
-                                    setDraft(p);
+                                    setDraft({ ...p }); //
                                 }}
                                 title="Edit"
                             >

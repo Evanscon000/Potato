@@ -3,11 +3,13 @@ package com.connorevans.potato.service;
 import com.connorevans.potato.entity.PotatoItem;
 import com.connorevans.potato.repo.PotatoItemRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class PotatoService {
 
     private final PotatoItemRepository potatoItemRepository;
@@ -35,11 +37,13 @@ public class PotatoService {
                     existing.setHourlyPay(updatedItem.getHourlyPay());
                     existing.setHoursPerWeek(updatedItem.getHoursPerWeek());
                     existing.setPotatoPriceAtConversion(updatedItem.getPotatoPriceAtConversion());
-                    return potatoItemRepository.save(existing);
+                    existing.setEmploymentType(updatedItem.getEmploymentType());
+                    existing.setExperienceLevel(updatedItem.getExperienceLevel());
+                    return potatoItemRepository.saveAndFlush(existing);   // <— force DB write
                 })
-                .orElseThrow(() -> new IllegalArgumentException("Potato Item not found with ID: " + id));
-
+                .orElseThrow(() -> new IllegalArgumentException("Potato Item not found"));
     }
+
 
     public void deletePotatoItemById(Long id) {
         potatoItemRepository.deleteById(id);

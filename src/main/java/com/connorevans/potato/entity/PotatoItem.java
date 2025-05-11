@@ -17,18 +17,24 @@ public class PotatoItem {
     private double hourlyPay;
     private double hoursPerWeek;
     private double potatoPriceAtConversion;
+    private String employmentType = "Hourly";
+    private String experienceLevel = "Junior";
     private LocalDateTime timestamp;
 
-    public PotatoItem(String name, double hourlyPay, double hoursPerWeek, double potatoPriceAtConversion) {
+    public PotatoItem(String name, double hourlyPay, double hoursPerWeek, double potatoPriceAtConversion, String experienceLevel) {
         this.name = name;
         this.hourlyPay = hourlyPay;
         this.hoursPerWeek = hoursPerWeek;
         this.potatoPriceAtConversion = potatoPriceAtConversion;
         this.timestamp = LocalDateTime.now();
+        this.employmentType = "Hourly";
+        this.experienceLevel = experienceLevel;
     }
 
     public PotatoItem() {
         this.timestamp = LocalDateTime.now();
+        this.employmentType = "Hourly";
+        this.experienceLevel = "Junior";
     }
 
     public Long getId() {
@@ -71,11 +77,27 @@ public class PotatoItem {
         this.potatoPriceAtConversion = potatoPriceAtConversion;
     }
 
+    public String getEmploymentType() {
+        return employmentType;
+    }
+
+    public void setEmploymentType(String employmentType) {
+        this.employmentType = employmentType;
+    }
+
     public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getExperienceLevel() {
+        return experienceLevel;
+    }
+
+    public void setExperienceLevel(String experienceLevel) {
+        this.experienceLevel = experienceLevel;
     }
 }

@@ -5,6 +5,8 @@ CREATE TABLE potato_entity
     hourly_pay                 DOUBLE PRECISION                        NOT NULL,
     hours_per_week             DOUBLE PRECISION                        NOT NULL,
     potato_price_at_conversion DOUBLE PRECISION                        NOT NULL,
+    employment_type            VARCHAR(255),
+    experience_level           VARCHAR(255),
     timestamp                  TIMESTAMP WITHOUT TIME ZONE,
-    CONSTRAINT pk_potatoentity PRIMARY KEY (id)
+    CONSTRAINT pk_potato_entity PRIMARY KEY (id)
 );
