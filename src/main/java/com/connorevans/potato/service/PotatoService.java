@@ -19,8 +19,12 @@ public class PotatoService {
     }
 
     public PotatoItem create(PotatoItem potatoItem) {
+        if (potatoItem.getPotatoPriceAtConversion() == 0) {
+            potatoItem.setPotatoPriceAtConversion(1.10);
+        }
         return potatoItemRepository.save(potatoItem);
     }
+
 
     public List<PotatoItem> getAllPotatoes(){
         return potatoItemRepository.findAll();
@@ -39,7 +43,7 @@ public class PotatoService {
                     existing.setPotatoPriceAtConversion(updatedItem.getPotatoPriceAtConversion());
                     existing.setEmploymentType(updatedItem.getEmploymentType());
                     existing.setExperienceLevel(updatedItem.getExperienceLevel());
-                    return potatoItemRepository.saveAndFlush(existing);   // <— force DB write
+                    return potatoItemRepository.saveAndFlush(existing);
                 })
                 .orElseThrow(() -> new IllegalArgumentException("Potato Item not found"));
     }

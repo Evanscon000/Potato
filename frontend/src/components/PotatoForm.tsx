@@ -1,113 +1,145 @@
-import { useState } from "react";
-import { createPotatoItem, getRecommendedPercent, PotatoItem } from "../services/potatoService";
+import { useState } from 'react';
+import {
+    createPotatoItem,
+    getRecommendedPercent,
+    PotatoItem,
+} from '../services/potatoService';
+import {
+    TextField,
+    RadioGroup,
+    FormControlLabel,
+    Radio,
+    FormLabel,
+    Select,
+    MenuItem,
+    Button,
+    Paper,
+    Stack,
+    Typography,
+} from '@mui/material';
 
-type Props = { onCreate: (item: PotatoItem) => void };
+type Props = {
+    onCreate: (item: PotatoItem) => void;
+    onRecommendation: (percent: number, item: PotatoItem) => void;
+};
 
-export default function PotatoForm({ onCreate }: Props) {
-    const [name, setName] = useState("");
+export default function PotatoForm({ onCreate, onRecommendation }: Props) {
+    // state
+    const [name, setName] = useState('');
     const [hourlyPay, setHourlyPay] = useState(0);
     const [hoursPerWeek, setHoursPerWeek] = useState(0);
-    const [employmentType, setEmploymentType] = useState("Hourly");
-    const [experienceLevel, setExperienceLevel] = useState("Junior");
+    const [employmentType, setEmploymentType] =
+        useState<'Hourly' | 'Salary'>('Hourly');
+    const [experienceLevel, setExperienceLevel] =
+        useState<'Junior' | 'Intermediate' | 'Senior'>('Junior');
     const [age, setAge] = useState(25);
 
-    const [recommendedPercent, setRecommendedPercent] = useState<number | null>(null);
+    const [recommended, setRecommended] = useState<number | null>(null);
 
+    // submit
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
 
+        // save the potato record
         const newItem = await createPotatoItem({
             name,
             hourlyPay,
             hoursPerWeek,
-            potatoPriceAtConversion: 0,
+            potatoPriceAtConversion: 0,      // backend calculates actual price
             employmentType,
             experienceLevel,
         });
         onCreate(newItem);
 
-        const percent = await getRecommendedPercent(age);
-        console.log("Recommended percent is:", percent);
-        setRecommendedPercent(percent);
+        // ask server for recommended contribution
+        const percent = await getRecommendedPercent(age); // 0.07 → 7 %
+        setRecommended(percent);
+        onRecommendation(percent, newItem);
 
-
-        // Reset form
-        setName("");
+        // reset form (optional)
+        setName('');
         setHourlyPay(0);
         setHoursPerWeek(0);
-        setEmploymentType("Hourly");
-        setExperienceLevel("Junior");
+        setEmploymentType('Hourly');
+        setExperienceLevel('Junior');
         setAge(25);
     }
 
+    // render
     return (
-        <form onSubmit={handleSubmit} className="space-y-2">
-            <input
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Name"
-            />
-            <input
-                value={hourlyPay}
-                onChange={(e) => setHourlyPay(+e.target.value)}
-                placeholder="Hourly Pay"
-                type="number"
-            />
-            <input
-                value={hoursPerWeek}
-                onChange={(e) => setHoursPerWeek(+e.target.value)}
-                placeholder="Hours / Week"
-                type="number"
-            />
-            <input
-                value={age}
-                onChange={(e) => setAge(+e.target.value)}
-                placeholder="Age"
-                type="number"
-            />
+        <Paper component="form" onSubmit={handleSubmit} sx={{ p: 3, mb: 4 }} elevation={3}>
+            <Stack spacing={2}>
+                <Typography variant="h6">Enter your details</Typography>
 
-            <div>
-                <label>
-                    <input
-                        type="radio"
-                        name="employmentType"
-                        value="Hourly"
-                        checked={employmentType === "Hourly"}
-                        onChange={() => setEmploymentType("Hourly")}
+                <TextField
+                    label="Name"
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                />
+
+                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                    <TextField
+                        label="Hourly Pay ($)"
+                        type="number"
+                        value={hourlyPay}
+                        onChange={e => setHourlyPay(+e.target.value)}
+                        fullWidth
                     />
-                    Hourly
-                </label>
-                <label style={{ marginLeft: "1rem" }}>
-                    <input
-                        type="radio"
-                        name="employmentType"
-                        value="Salary"
-                        checked={employmentType === "Salary"}
-                        onChange={() => setEmploymentType("Salary")}
+                    <TextField
+                        label="Hours / Week"
+                        type="number"
+                        value={hoursPerWeek}
+                        onChange={e => setHoursPerWeek(+e.target.value)}
+                        fullWidth
                     />
-                    Salary
-                </label>
+                    <TextField
+                        label="Age"
+                        type="number"
+                        value={age}
+                        onChange={e => setAge(+e.target.value)}
+                        fullWidth
+                    />
+                </Stack>
 
-                <label>Experience Level:</label>
-                <select
-                    value={experienceLevel}
-                    onChange={(e) => setExperienceLevel(e.target.value)}
-                >
-                    <option value="Junior">Junior</option>
-                    <option value="Intermediate">Intermediate</option>
-                    <option value="Senior">Senior</option>
-                </select>
-            </div>
-
-            <button type="submit">Convert to Potatoes</button>
-
-            {recommendedPercent !== null && (
-                <div style={{ marginTop: "1rem", fontWeight: "bold" }}>
-                     Based on your age, we recommend investing: {Math.round(recommendedPercent * 100)}%
+                 {/* employment type */}
+                <div>
+                    <FormLabel>Employment Type</FormLabel>
+                    <RadioGroup
+                        row
+                        value={employmentType}
+                        onChange={e => setEmploymentType(e.target.value as 'Hourly' | 'Salary')}
+                    >
+                        <FormControlLabel value="Hourly" control={<Radio />} label="Hourly" />
+                        <FormControlLabel value="Salary" control={<Radio />} label="Salary" />
+                    </RadioGroup>
                 </div>
-            )}
 
+                {/* experience */}
+                <div>
+                    <FormLabel>Experience Level</FormLabel>
+                    <Select
+                        size="small"
+                        value={experienceLevel}
+                        onChange={e => setExperienceLevel(e.target.value as any)}
+                        sx={{ ml: 2, minWidth: 140 }}
+                    >
+                        <MenuItem value="Junior">Junior</MenuItem>
+                        <MenuItem value="Intermediate">Intermediate</MenuItem>
+                        <MenuItem value="Senior">Senior</MenuItem>
+                    </Select>
+                </div>
 
-        </form>
+                <Button type="submit" variant="contained">
+                    Convert to Potatoes
+                </Button>
+
+                {recommended !== null && (
+                    <Typography sx={{ mt: 1 }}>
+                        Recommended investment rate:&nbsp;
+                        <strong>{(recommended * 100).toFixed(0)}%</strong>
+                    </Typography>
+                )}
+            </Stack>
+        </Paper>
     );
 }

@@ -1,29 +1,83 @@
-import { useEffect, useState } from "react";
-import PotatoForm from "../components/PotatoForm";
-import PotatoTable from "../components/PotatoTable";
-import { getAllPotatoes, PotatoItem } from "../services/potatoService.ts";
-import { Link } from "react-router-dom";
+// src/pages/LandingPage.tsx
+import { useEffect, useState }   from 'react';
+import { Link }                  from 'react-router-dom';
+import {
+    Container,
+    Grid,
+    Typography,
+    Paper,
+    Divider,
+    Box,
+    Button,
+} from '@mui/material';
+
+import PotatoForm   from '../components/PotatoForm';
+import PotatoTable  from '../components/PotatoTable';
+import PotatoStats  from '../components/PotatoStats';
+
+import { getAllPotatoes, PotatoItem } from '../services/potatoService';
 
 export default function LandingPage() {
-    const [items, setItems] = useState<PotatoItem[]>([]);
+    const [items,  setItems]  = useState<PotatoItem[]>([]);
+    const [latest, setLatest] = useState<PotatoItem | null>(null);
+    const [rec,    setRec]    = useState<number | null>(null);
 
-    useEffect(() => {
-        getAllPotatoes().then(setItems);
-    }, []);
+    // average russet price (May 2025)
+    const POTATO_PRICE = 1.10;
+
+    // initial fetch
+    useEffect(() => { getAllPotatoes().then(setItems); }, []);
 
     return (
-        <>
-            <h1>Potato App</h1>
-            <PotatoForm onCreate={item => setItems(prev => [...prev, item])} />
-            <PotatoTable
-                items={items}
-                onSave={(u) => setItems((prev) => prev.map(p => p.id === u.id ? u : p))}
-                onDelete={(id) => setItems((prev) => prev.filter(p => p.id !== id))}
-            />
+        <Container maxWidth="lg" sx={{ mt: 4, mb: 6 }}>
+            <Typography variant="h3" gutterBottom>
+                Potato Wage Converter
+            </Typography>
 
+            <Divider sx={{ mb: 4 }} />
 
-            <Link to="/invest">Click here to learn how anyone can buy their time back </Link>
-        </>
+            {/* grid layout */}
+            <Grid container spacing={4}>
+                {/* left column (form + stats) */}
+                <Grid item xs={12} md={5}>
+                    <PotatoForm
+                        onCreate={item => setItems(p => [...p, item])}
+                        onRecommendation={(percent, item) => {
+                            setRec(percent);
+                            setLatest(item);
+                        }}
+                    />
+
+                    {latest && rec !== null && (
+                        <PotatoStats
+                            item={latest}
+                            potatoPrice={POTATO_PRICE}
+                            recommendedPercent={rec}
+                        />
+                    )}
+                </Grid>
+
+                {/* right column (table) */}
+                <Grid item xs={12} md={7}>
+                    <PotatoTable
+                        items={items}
+                        onSave={u => setItems(p => p.map(t => t.id === u.id ? u : t))}
+                        onDelete={id => setItems(p => p.filter(t => t.id !== id))}
+                    />
+                </Grid>
+            </Grid>
+
+            {/* navigation footer */}
+            <Box textAlign="center" sx={{ mt: 6 }}>
+                <Button
+                    component={Link}
+                    to="/invest"
+                    variant="outlined"
+                    size="large"
+                >
+                    See the power of compounding
+                </Button>
+            </Box>
+        </Container>
     );
 }
-
