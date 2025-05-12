@@ -1,64 +1,49 @@
-// src/components/PotatoStats.tsx
-import { Paper, Stack, Typography, Table, TableBody, TableRow, TableCell } from '@mui/material';
+import { Typography, Paper, Stack } from '@mui/material';
 import { PotatoItem } from '../services/potatoService';
-import { costItems } from '../constants/costItems.ts';
 
-type Props = {
+interface Props {
     item: PotatoItem;
     potatoPrice: number;
     recommendedPercent: number;
-};
+    monthlyExpenses: number;
+}
 
-export default function PotatoStats({ item, potatoPrice, recommendedPercent }: Props) {
-    const potatoesPerHr   = item.hourlyPay / potatoPrice;
-    const potatoesPerYear = potatoesPerHr * item.hoursPerWeek * 52;
-    const investPotatoes  = potatoesPerYear * recommendedPercent;
+export default function PotatoStats({ item, potatoPrice, recommendedPercent, monthlyExpenses }: Props) {
+    // basic conversions
+    const potatoesPerHour = item.hourlyPay / potatoPrice;
+    const monthlyIncome = item.hourlyPay * item.hoursPerWeek * 4.33; // avg weeks / month
+    const annualIncome = monthlyIncome * 12;
 
-    // helper
-    function hoursToWords(hours: number) {
-        const days   = hours / 24;
-        const years  = days / 365;
-        if (years > 1)   return `${years.toFixed(1)} years`;
-        if (days  > 1)   return `${days.toFixed(0)} days`;
-        return `${hours.toFixed(0)} h`;
-    }
+    const monthlyExpendable = Math.max(0, monthlyIncome - monthlyExpenses);
+    const annualExpendable = monthlyExpendable * 12;
+    const actualSavingsRate = monthlyIncome ? monthlyExpendable / monthlyIncome : 0; // 0‑1
 
     return (
-        <Paper sx={{ p: 3, mt: 2 }} elevation={2}>
+        <Paper sx={{ p: 3, mt: 3 }} elevation={2}>
+            <Typography variant="h6" gutterBottom>
+                Your Potato Stats
+            </Typography>
+
             <Stack spacing={1}>
-                <Typography variant="h6">
-                    Your Potato Breakdown
-                </Typography>
-
                 <Typography>
-                    Potatoes earned <strong>per hour:</strong> {potatoesPerHr.toFixed(1)}
+                    <strong>Potatoes earned per hour:</strong> {potatoesPerHour.toFixed(1)} 🥔
                 </Typography>
                 <Typography>
-                    Potatoes you could invest yearly at <strong>{(recommendedPercent*100).toFixed(0)}%</strong>:
-                    {' '}
-                    <strong>{investPotatoes.toLocaleString()}</strong>
+                    <strong>Monthly income:</strong> ${monthlyIncome.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                 </Typography>
-
-                <Table size="small" sx={{ mt: 1 }}>
-                    <TableBody>
-                        {costItems.map(({ label, cost }) => {
-                            const potatoesNeeded = cost / potatoPrice;
-                            const hrsNeeded      = potatoesNeeded / potatoesPerHr;
-
-                            return (
-                                <TableRow key={label}>
-                                    <TableCell>{label}</TableCell>
-                                    <TableCell align="right">
-                                        {potatoesNeeded.toLocaleString(undefined, { maximumFractionDigits: 0 })} 🥔
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        ≈ {hoursToWords(hrsNeeded)}
-                                    </TableCell>
-                                </TableRow>
-                            );
-                        })}
-                    </TableBody>
-                </Table>
+                <Typography>
+                    <strong>Monthly living expenses:</strong> ${monthlyExpenses.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                </Typography>
+                <Typography>
+                    <strong>Expendable income (monthly):</strong> ${monthlyExpendable.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                </Typography>
+                <Typography>
+                    <strong>Available savings rate:</strong> {(actualSavingsRate * 100).toFixed(0)}%
+                    {' '}({(recommendedPercent * 100).toFixed(0)}% recommended)
+                </Typography>
+                <Typography>
+                    <strong>Potential annual investment:</strong> ${annualExpendable.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                </Typography>
             </Stack>
         </Paper>
     );
