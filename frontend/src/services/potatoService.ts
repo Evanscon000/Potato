@@ -35,3 +35,9 @@ export const deletePotatoItem = async (id: number) => {
     await axios.delete(`${BASE}/${id}`);
     return "item deleted";
 };
+
+// ContributionBracket logic
+
+export const getRecommendedPercent = (age: number) =>
+    axios.get(`/api/recommendation/${age}`).then((r) => r.data);
+

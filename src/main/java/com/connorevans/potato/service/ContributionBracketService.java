@@ -17,4 +17,14 @@ public class ContributionBracketService {
     public List<ContributionBracket> getAllBrackets() {
         return repo.findAll();
     }
+
+    public double getRecommendedPercent(int age) {
+        return repo.findAll().stream()
+                .filter(bracket -> age >= bracket.getMinAge() && age <= bracket.getMaxAge())
+                .findFirst()
+                .map(ContributionBracket::getRecommendedPercent)
+                .orElse(0.0);
+    }
+
+
 }
