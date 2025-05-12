@@ -5,7 +5,7 @@ import {
     Container,
     Grid,
     Typography,
-    Paper,
+    Alert,
     Divider,
     Box,
     Button,
@@ -29,17 +29,20 @@ export default function LandingPage() {
     useEffect(() => { getAllPotatoes().then(setItems); }, []);
 
     return (
+
         <Container maxWidth="lg" sx={{ mt: 4, mb: 6 }}>
             <Typography variant="h3" gutterBottom>
                 Potato Wage Converter
             </Typography>
+
+            <Alert severity="info" sx={{ mb:3 }}>Every dollar you earn is time spent. Converting your wages into potatoes helps you see the true cost of your dreams in hours, not just money. Live with intention.</Alert>
 
             <Divider sx={{ mb: 4 }} />
 
             {/* grid layout */}
             <Grid container spacing={4}>
                 {/* left column (form + stats) */}
-                <Grid item xs={12} md={5}>
+                <Grid item xs={12} md={5} {...({} as any)}>
                     <PotatoForm
                         onCreate={item => setItems(p => [...p, item])}
                         onRecommendation={(percent, item) => {
@@ -58,7 +61,7 @@ export default function LandingPage() {
                 </Grid>
 
                 {/* right column (table) */}
-                <Grid item xs={12} md={7}>
+                <Grid item xs={12} md={7} {...({} as any)}>
                     <PotatoTable
                         items={items}
                         onSave={u => setItems(p => p.map(t => t.id === u.id ? u : t))}

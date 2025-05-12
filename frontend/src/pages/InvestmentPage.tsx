@@ -6,7 +6,7 @@
 // src/pages/InvestmentPage.tsx
 import { useEffect, useState } from 'react';
 import {
-    Container, Typography, Paper, Stack, TextField,
+    Container, Typography, Paper, TextField,
     Select, MenuItem, Button, Grid
 } from '@mui/material';
 
@@ -26,7 +26,7 @@ export default function InvestmentPage() {
     // load saved rows once
     useEffect(() => { getAllPotatoes().then(setSaved); }, []);
 
-    // when user selects an existing entry → pre-fill principal
+    // when user selects an existing entry to pre-fill principal
     useEffect(() => {
         if (choice === 'custom') return;
         const row = saved.find(r => r.id === choice);
@@ -50,7 +50,7 @@ export default function InvestmentPage() {
             <Paper sx={{ p: 3, mb: 4 }} elevation={3}>
                 <Grid container spacing={2}>
                     {/* choose row */}
-                    <Grid item xs={12}>
+                    <Grid item xs={12} {...({} as any)}>
                         <Select
                             size="small"
                             fullWidth
@@ -67,7 +67,7 @@ export default function InvestmentPage() {
                     </Grid>
 
                     {/* principal */}
-                    <Grid item xs={12} sm={4}>
+                    <Grid item xs={12} sm={4} {...({} as any)}>
                         <TextField
                             label="Initial Amount ($)"
                             type="number"
@@ -78,7 +78,7 @@ export default function InvestmentPage() {
                     </Grid>
 
                     {/* rate */}
-                    <Grid item xs={12} sm={4}>
+                    <Grid item xs={12} sm={4} {...({} as any)}>
                         <TextField
                             label="Annual % Return"
                             type="number"
@@ -89,7 +89,7 @@ export default function InvestmentPage() {
                     </Grid>
 
                     {/* years */}
-                    <Grid item xs={12} sm={4}>
+                    <Grid item xs={12} sm={4} {...({} as any)}>
                         <TextField
                             label="Years"
                             type="number"
@@ -99,7 +99,7 @@ export default function InvestmentPage() {
                         />
                     </Grid>
 
-                    <Grid item xs={12}>
+                    <Grid item xs={12} {...({} as any)}>
                         <Button variant="contained" onClick={calcFV}>
                             Calculate
                         </Button>

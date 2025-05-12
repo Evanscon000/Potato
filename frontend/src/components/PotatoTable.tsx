@@ -7,7 +7,7 @@ import {
 import {
     Table, TableHead, TableRow, TableCell, TableBody,
     IconButton, TextField, Select, MenuItem,
-    RadioGroup, FormControlLabel, Radio, Stack, Paper, Collapse
+    RadioGroup, FormControlLabel, Radio, Stack, Paper, Collapse,
 } from '@mui/material';
 import { Edit, Delete, Save, Close, ExpandMore, ExpandLess } from '@mui/icons-material';
 
@@ -53,6 +53,8 @@ export default function PotatoTable({ items, onSave, onDelete }: Props) {
                     editingId === p.id ? (
                             <TableRow key={p.id}>
                                 <TableCell>
+                                    plain fields like “Potatoes/hr” or "🥔 = $1.10".
+
                                     <TextField
                                         size="small"
                                         value={draft!.name}
@@ -138,7 +140,7 @@ export default function PotatoTable({ items, onSave, onDelete }: Props) {
                                 <TableRow>
                                     <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
                                         <Collapse in={openStats[p.id!]} timeout="auto" unmountOnExit>
-                                            <Stack direction="row" spacing={4} sx={{ p: 2, bgcolor: '#fafafa' }}>
+                                            <Stack direction="row" spacing={4} sx={{ p: 2, bgcolor: '#ffffff' }}>
                                                 {[
                                                     { label: 'House 300 k', cost: 300_000 },
                                                     { label: 'Car 40 k' ,  cost: 40_000  },

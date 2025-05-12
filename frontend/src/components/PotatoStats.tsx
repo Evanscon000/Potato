@@ -1,19 +1,13 @@
 // src/components/PotatoStats.tsx
 import { Paper, Stack, Typography, Table, TableBody, TableRow, TableCell } from '@mui/material';
 import { PotatoItem } from '../services/potatoService';
+import { costItems } from '../constants/costItems.ts';
 
 type Props = {
     item: PotatoItem;
     potatoPrice: number;
     recommendedPercent: number;
 };
-
-// rough targets
-const BIG_PURCHASES = [
-    { label: 'Starter car',   costUSD: 15000 },
-    { label: 'Down-payment', costUSD: 60000 },
-    { label: 'Average home', costUSD: 300000 },
-];
 
 export default function PotatoStats({ item, potatoPrice, recommendedPercent }: Props) {
     const potatoesPerHr   = item.hourlyPay / potatoPrice;
@@ -40,15 +34,15 @@ export default function PotatoStats({ item, potatoPrice, recommendedPercent }: P
                     Potatoes earned <strong>per hour:</strong> {potatoesPerHr.toFixed(1)}
                 </Typography>
                 <Typography>
-                    Potatoes you could invest yearly at <strong>{(recommendedPercent*100).toFixed(0)} %</strong>:
+                    Potatoes you could invest yearly at <strong>{(recommendedPercent*100).toFixed(0)}%</strong>:
                     {' '}
                     <strong>{investPotatoes.toLocaleString()}</strong>
                 </Typography>
 
                 <Table size="small" sx={{ mt: 1 }}>
                     <TableBody>
-                        {BIG_PURCHASES.map(({ label, costUSD }) => {
-                            const potatoesNeeded = costUSD / potatoPrice;
+                        {costItems.map(({ label, cost }) => {
+                            const potatoesNeeded = cost / potatoPrice;
                             const hrsNeeded      = potatoesNeeded / potatoesPerHr;
 
                             return (
