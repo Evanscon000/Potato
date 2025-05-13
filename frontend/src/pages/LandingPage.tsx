@@ -4,10 +4,12 @@ import {
     Container, Typography, Alert, Divider, Box,
     Button, Stepper, Step, StepLabel, Grid,
 } from '@mui/material';
+
 import PotatoForm from '../components/PotatoForm';
 import PotatoTable from '../components/PotatoTable';
 import PotatoStats from '../components/PotatoStats';
 import { getAllPotatoes, PotatoItem } from '../services/potatoService';
+
 
 export default function LandingPage() {
     const [items, setItems] = useState<PotatoItem[]>([]);
@@ -30,7 +32,7 @@ export default function LandingPage() {
             </Stepper>
 
             <Alert severity="info" sx={{ mb: 3 }}>
-                Convert wage → 🥔 to uncover the real cost of life in time.
+                Convert wage to potatoes to uncover the real cost of life in time.
             </Alert>
             <Divider sx={{ mb: 4 }} />
 

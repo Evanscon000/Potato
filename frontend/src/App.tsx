@@ -3,6 +3,7 @@ import LandingPage from './pages/LandingPage';
 import InvestmentPage from './pages/InvestmentPage';
 import { Container, AppBar, Toolbar, Typography, Button } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
+import PotatoPal from "./components/PotatoPal.tsx";
 
 export default function App() {
     return (
@@ -26,6 +27,8 @@ export default function App() {
                     <Route path="/" element={<LandingPage />} />
                     <Route path="/invest" element={<InvestmentPage />} />
                 </Routes>
+                <PotatoPal />
+
             </Container>
         </BrowserRouter>
     );

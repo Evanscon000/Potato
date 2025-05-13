@@ -36,7 +36,7 @@ export default function FinanceCoach({ savingsRate, recommended, monthlyExpendab
         <Alert severity={severity} sx={{ mt: 2 }}>
             <strong>{title}</strong> — {message}{' '}
             <Link
-                href="https://www.ramseysolutions.com/retirement/how-much-to-save-for-retirement"
+                href="https://www.ramseysolutions.com/retirement/how-to-start-investing?srsltid=AfmBOorMGVWySYU5pmgrpzdBJnxMOTHy-pDJQQzNBaMY53gRHJq938Bv"
                 target="_blank"
                 rel="noopener"
             >
