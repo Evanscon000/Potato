@@ -32,7 +32,7 @@ export default function LandingPage() {
             </Stepper>
 
             <Alert severity="info" sx={{ mb: 3 }}>
-                Convert wage to potatoes to uncover the real cost of life in time.
+                You have been working for potatoes... don't believe us, try it out for yourself
             </Alert>
             <Divider sx={{ mb: 4 }} />
 

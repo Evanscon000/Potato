@@ -65,7 +65,7 @@ export default function PotatoForm({ onCreate, onRecommendation, onExpenseChange
 
     // render
     return (
-        <Paper component="form" onSubmit={handleSubmit} sx={{ p: 3, mb: 4 }} elevation={3}>
+        <Paper component="form" onSubmit={handleSubmit} sx={{ p: 3, mb: 4, }} elevation={3}>
             <Stack spacing={2}>
                 <Typography variant="h6">Enter your details</Typography>
 

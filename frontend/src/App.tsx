@@ -1,35 +1,87 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+// src/App.tsx – theme, AppBar, routing
+import { BrowserRouter, Routes, Route, Link as RouterLink } from 'react-router-dom';
+import {
+    ThemeProvider,
+    createTheme,
+    CssBaseline,
+    GlobalStyles,
+    AppBar,
+    Toolbar,
+    Typography,
+    Button,
+    Container,
+} from '@mui/material';
+
+import WelcomePage from './pages/WelcomePage';
 import LandingPage from './pages/LandingPage';
 import InvestmentPage from './pages/InvestmentPage';
-import { Container, AppBar, Toolbar, Typography, Button } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
 import PotatoPal from "./components/PotatoPal.tsx";
+
+// Custom theme
+const theme = createTheme({
+    palette: {
+        primary: { main: '#8d6e63' },      // russet brown
+        secondary: { main: '#ffc107' },    // golden potato
+        background: { default: '#f5f1e8' },
+    },
+    typography: {
+        fontFamily: '"Roboto", "Nunito", sans-serif',
+        h6: { fontWeight: 700 },
+    },
+});
 
 export default function App() {
     return (
-        <BrowserRouter>
-            <AppBar position="static" color="primary" enableColorOnDark>
-                <Toolbar>
-                    <Typography variant="h6" sx={{ flexGrow: 1 }}>
-                        Potato Planner
-                    </Typography>
-                    <Button color="inherit" component={RouterLink} to="/">
-                        Home
-                    </Button>
-                    <Button color="inherit" component={RouterLink} to="/invest">
-                        Invest
-                    </Button>
-                </Toolbar>
-            </AppBar>
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
+            {/* parchment-style radial gradient */}
+            <GlobalStyles
+                styles={{
+                    body: {
+                        background:
+                            'radial-gradient(circle at top left, #fffde7 0%, #f0ead6 45%, #eadbc8 100%)',
+                    },
+                }}
+            />
 
-            <Container maxWidth="md" sx={{ mt: 4, mb: 6 }}>
-                <Routes>
-                    <Route path="/" element={<LandingPage />} />
-                    <Route path="/invest" element={<InvestmentPage />} />
-                </Routes>
+            <BrowserRouter>
+                {/* Frosted AppBar */}
+                <AppBar
+                    position="static"
+                    elevation={3}
+                    sx={{ backdropFilter: 'blur(6px)' }}
+                >
+                    <Toolbar>
+                        <Typography
+                            variant="h6"
+                            sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', gap: 1 }}
+                        >
+                            The Potato App
+                        </Typography>
+
+                        {/* Nav links */}
+                        <Button color="inherit" component={RouterLink} to="/">
+                            Home
+                        </Button>
+                        <Button color="inherit" component={RouterLink} to="/start">
+                            Explore
+                        </Button>
+                        <Button color="inherit" component={RouterLink} to="/invest">
+                            Invest
+                        </Button>
+                    </Toolbar>
+                </AppBar>
+
+                {/* Main content*/}
+                <Container maxWidth="lg" sx={{ py: 4 }}>
+                    <Routes>
+                        <Route path="/" element={<WelcomePage />} />
+                        <Route path="/start" element={<LandingPage />} />
+                        <Route path="/invest" element={<InvestmentPage />} />
+                    </Routes>
+                </Container>
                 <PotatoPal />
-
-            </Container>
-        </BrowserRouter>
+            </BrowserRouter>
+        </ThemeProvider>
     );
 }

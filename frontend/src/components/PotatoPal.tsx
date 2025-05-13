@@ -1,11 +1,12 @@
-// src/components/PotatoPal.tsx – friendly interactive mascot with fun + finance tips
+// src/components/PotatoPal.tsx
 import { useState } from 'react';
 import { Box, Tooltip, Typography, Paper } from '@mui/material';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useAnimation } from 'framer-motion';
+import confetti from 'canvas-confetti';
 
 export default function PotatoPal() {
+    // ─── Your epic tips array ───
     const tips = [
-        //
         'Potatoes were the first vegetable grown in space.',
         'Paying yourself first — even $50/month — builds powerful savings habits.',
         'The world’s largest potato ever weighed over 11 pounds!',
@@ -28,34 +29,77 @@ export default function PotatoPal() {
         'You don’t need to be rich to build wealth. You need time + consistency.',
     ];
 
+    // ─── State & animation controls ───
     const [showTip, setShowTip] = useState(false);
     const [tip, setTip] = useState(tips[0]);
+    const controls = useAnimation();
 
+    // ─── Time-of-day mood ───
+    const hour = new Date().getHours();
+    const isNight = hour < 6 || hour > 18;
+
+    // ─── Click handler ───
     const handleClick = () => {
+        // pick a random tip
         const next = tips[Math.floor(Math.random() * tips.length)];
         setTip(next);
+        // show the tip bubble
         setShowTip(true);
+        // auto-hide after 6s
         setTimeout(() => setShowTip(false), 6000);
+        // bounce & rotate animation
+        controls.start({
+            scale: [1, 1.2, 1],
+            rotate: [0, 15, -15, 0],
+            transition: { duration: 0.5 },
+        });
+        // confetti blast
+        confetti({ particleCount: 30, spread: 70, origin: { x: 0.9, y: 0.7 } });
     };
 
     return (
-        <Box sx={{ position: 'fixed', bottom: 16, right: 16, zIndex: 1300 }}>
+        <Box>
+            {/* ─── The draggable, animated mascot ─── */}
             <Tooltip title="Click me for a tip!" placement="left">
                 <motion.div
                     onClick={handleClick}
-                    whileHover={{ rotate: [0, -10, 10, -10, 0] }}
-                    transition={{ duration: 0.6 }}
-                    style={{ cursor: 'pointer' }}
+                    drag
+                    dragMomentum={false}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9, cursor: 'grabbing' }}
+                    animate={controls}
+                    transition={{ type: 'spring', stiffness: 300 }}
+                    style={{
+                        position: 'fixed',
+                        bottom: 16,
+                        right: 16,
+                        zIndex: 1300,
+                        cursor: 'grab',
+                        filter: isNight ? 'brightness(0.7)' : 'none',
+                    }}
                 >
-                    <svg width="80" height="80" viewBox="0 0 100 100" fill="none">
-                        <ellipse cx="50" cy="50" rx="40" ry="50" fill="#c59d5f" />
+                    <svg width="80" height="80" viewBox="0 0 100 100">
+                        <defs>
+                            <radialGradient id="potatoGrad" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stopColor="#fff1c9" />
+                                <stop offset="100%" stopColor="#c59d5f" />
+                            </radialGradient>
+                        </defs>
+                        <ellipse cx="50" cy="50" rx="40" ry="50" fill="url(#potatoGrad)" />
                         <circle cx="35" cy="45" r="5" fill="#000" />
                         <circle cx="65" cy="45" r="5" fill="#000" />
-                        <path d="M35 65 Q50 75 65 65" stroke="#000" strokeWidth="4" fill="none" strokeLinecap="round" />
+                        <path
+                            d="M35 65 Q50 75 65 65"
+                            stroke="#000"
+                            strokeWidth="4"
+                            fill="none"
+                            strokeLinecap="round"
+                        />
                     </svg>
                 </motion.div>
             </Tooltip>
 
+            {/* ─── The animated tip bubble ─── */}
             <AnimatePresence>
                 {showTip && (
                     <motion.div
@@ -63,8 +107,23 @@ export default function PotatoPal() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 20 }}
                         transition={{ duration: 0.3 }}
+                        style={{
+                            position: 'fixed',
+                            bottom: 110,
+                            right: 16,
+                            zIndex: 1300,
+                        }}
                     >
-                        <Paper sx={{ p: 1.5, mt: 1, maxWidth: 260 }} elevation={3}>
+                        <Paper
+                            elevation={4}
+                            sx={{
+                                p: 1.5,
+                                maxWidth: 260,
+                                background:
+                                    'linear-gradient(135deg, #fffde7 0%, #f0ead6 100%)',
+                                borderRadius: 2,
+                            }}
+                        >
                             <Typography variant="body2">{tip}</Typography>
                         </Paper>
                     </motion.div>
