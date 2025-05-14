@@ -5,55 +5,72 @@ import { motion } from 'framer-motion';
 
 export default function WelcomePage() {
     return (
-        <Box
-            sx={{
-                minHeight: '100vh',
-                backgroundImage: 'url(/WelcomeToThePotatoAppPage.png)',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-            }}
-        >
-            <Container maxWidth="sm">
-                <motion.div
-                    initial={{ opacity: 0, y: 40 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1 }}
-                >
-                    <Paper
-                        elevation={6}
-                        sx={{
-                            p: 4,
-                            backdropFilter: 'blur(8px)',
-                            backgroundColor: 'rgba(255, 255, 255, 0.75)',
-                            borderRadius: 4,
-                            textAlign: 'center',
-                        }}
+        <>
+            {/* ─── Fullscreen background (non-interactive) ─── */}
+            <Box
+                sx={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    width: '100vw',
+                    height: '100vh',
+                    backgroundImage: 'url(/WelcomeToThePotatoAppPage.png)',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                    zIndex: -1,
+                    pointerEvents: 'none',     // <-- allow scroll & clicks through
+                }}
+            />
+
+            {/* ─── Foreground content (interactive) ─── */}
+            <Box
+                sx={{
+                    minHeight: '100vh',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    p: 2,                      // padding so small screens can scroll if needed
+                }}
+            >
+                <Container maxWidth="sm">
+                    <motion.div
+                        initial={{ opacity: 0, y: 40 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1 }}
                     >
-                        <Typography variant="h4" fontWeight="bold" gutterBottom>
-                            Welcome to The Potato Investment App
-                        </Typography>
-
-                        <Typography variant="body1" sx={{ mb: 3 }}>
-                            Plant your earnings. Water your habits. Grow into financial freedom. <br />
-                            This is more than a tool — it's the key to your freedom.
-                        </Typography>
-
-                        <Button
-                            variant="contained"
-                            size="large"
-                            color="primary"
-                            component={RouterLink}
-                            to="/start"
+                        <Paper
+                            elevation={6}
+                            sx={{
+                                p: 4,
+                                backdropFilter: 'blur(8px)',
+                                backgroundColor: 'rgba(255, 255, 255, 0.75)',
+                                borderRadius: 4,
+                                textAlign: 'center',
+                            }}
                         >
-                            Start Your Journey
-                        </Button>
-                    </Paper>
-                </motion.div>
-            </Container>
-        </Box>
+                            <Typography variant="h4" fontWeight="bold" gutterBottom>
+                                Welcome to The Potato Investment App
+                            </Typography>
+
+                            <Typography variant="body1" sx={{ mb: 3 }}>
+                                Plant your earnings. Water your habits. Grow into financial freedom. <br />
+                                This is more than a tool — it's the key to your freedom.
+                            </Typography>
+
+                            <Button
+                                variant="contained"
+                                size="large"
+                                color="primary"
+                                component={RouterLink}
+                                to="/start"
+                            >
+                                Start Your Journey
+                            </Button>
+                        </Paper>
+                    </motion.div>
+                </Container>
+            </Box>
+        </>
     );
 }

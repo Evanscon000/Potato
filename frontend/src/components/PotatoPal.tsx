@@ -1,8 +1,19 @@
 // src/components/PotatoPal.tsx
-import { useState } from 'react';
-import { Box, Tooltip, Typography, Paper } from '@mui/material';
+import React, { useState } from 'react';
+import {
+    Box,
+    Tooltip,
+    Typography,
+    Paper,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    Button,
+} from '@mui/material';
 import { motion, AnimatePresence, useAnimation } from 'framer-motion';
 import confetti from 'canvas-confetti';
+import { useNavigate } from 'react-router-dom';
 
 export default function PotatoPal() {
     // ─── Your epic tips array ───
@@ -33,6 +44,11 @@ export default function PotatoPal() {
     const [showTip, setShowTip] = useState(false);
     const [tip, setTip] = useState(tips[0]);
     const controls = useAnimation();
+    const navigate = useNavigate();
+
+    // ─── Easter-egg click tracking ───
+    const [clickCount, setClickCount] = useState(0);
+    const [openPrompt, setOpenPrompt] = useState(false);
 
     // ─── Time-of-day mood ───
     const hour = new Date().getHours();
@@ -43,19 +59,38 @@ export default function PotatoPal() {
         // pick a random tip
         const next = tips[Math.floor(Math.random() * tips.length)];
         setTip(next);
+
         // show the tip bubble
         setShowTip(true);
-        // auto-hide after 6s
         setTimeout(() => setShowTip(false), 6000);
+
         // bounce & rotate animation
         controls.start({
             scale: [1, 1.2, 1],
             rotate: [0, 15, -15, 0],
             transition: { duration: 0.5 },
         });
+
         // confetti blast
         confetti({ particleCount: 30, spread: 70, origin: { x: 0.9, y: 0.7 } });
+
+        // Easter-egg click count
+        setClickCount((c) => {
+            const nextCount = c + 1;
+            if (nextCount >= 25) {
+                setOpenPrompt(true);
+                return 0; // reset
+            }
+            return nextCount;
+        });
     };
+
+    // ─── Dialog handlers ───
+    const handlePlay = () => {
+        setOpenPrompt(false);
+        navigate('/spuddy-adventure');
+    };
+    const handleClose = () => setOpenPrompt(false);
 
     return (
         <Box>
@@ -85,7 +120,13 @@ export default function PotatoPal() {
                                 <stop offset="100%" stopColor="#c59d5f" />
                             </radialGradient>
                         </defs>
-                        <ellipse cx="50" cy="50" rx="40" ry="50" fill="url(#potatoGrad)" />
+                        <ellipse
+                            cx="50"
+                            cy="50"
+                            rx="40"
+                            ry="50"
+                            fill="url(#potatoGrad)"
+                        />
                         <circle cx="35" cy="45" r="5" fill="#000" />
                         <circle cx="65" cy="45" r="5" fill="#000" />
                         <path
@@ -129,6 +170,22 @@ export default function PotatoPal() {
                     </motion.div>
                 )}
             </AnimatePresence>
+
+            {/* ─── Easter-egg Prompt Dialog ─── */}
+            <Dialog open={openPrompt} onClose={handleClose}>
+                <DialogTitle>Secret Unlocked!</DialogTitle>
+                <DialogContent>
+                    <Typography>
+                        You’ve clicked Spuddy 25 times! Want to play the mini-game?
+                    </Typography>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Not Now</Button>
+                    <Button variant="contained" onClick={handlePlay}>
+                        Let’s Play!
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </Box>
     );
 }

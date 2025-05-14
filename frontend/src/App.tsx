@@ -16,6 +16,7 @@ import WelcomePage from './pages/WelcomePage';
 import LandingPage from './pages/LandingPage';
 import InvestmentPage from './pages/InvestmentPage';
 import PotatoPal from "./components/PotatoPal.tsx";
+import SpuddyGame from './pages/SpuddyGame';
 
 // Custom theme
 const theme = createTheme({
@@ -78,6 +79,7 @@ export default function App() {
                         <Route path="/" element={<WelcomePage />} />
                         <Route path="/start" element={<LandingPage />} />
                         <Route path="/invest" element={<InvestmentPage />} />
+                        <Route path="/spuddy-adventure" element={<SpuddyGame />} />
                     </Routes>
                 </Container>
                 <PotatoPal />
