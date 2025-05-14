@@ -21,8 +21,8 @@ import SpuddyGame from './pages/SpuddyGame';
 // Custom theme
 const theme = createTheme({
     palette: {
-        primary: { main: '#8d6e63' },      // russet brown
-        secondary: { main: '#ffc107' },    // golden potato
+        primary: { main: '#8d6e63' },
+        secondary: { main: '#ffc107' },
         background: { default: '#f5f1e8' },
     },
     typography: {
@@ -35,7 +35,6 @@ export default function App() {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            {/* parchment-style radial gradient */}
             <GlobalStyles
                 styles={{
                     body: {
@@ -46,7 +45,6 @@ export default function App() {
             />
 
             <BrowserRouter>
-                {/* Frosted AppBar */}
                 <AppBar
                     position="static"
                     elevation={3}

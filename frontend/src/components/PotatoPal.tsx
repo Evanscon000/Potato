@@ -16,7 +16,6 @@ import confetti from 'canvas-confetti';
 import { useNavigate } from 'react-router-dom';
 
 export default function PotatoPal() {
-    // ─── Your epic tips array ───
     const tips = [
         'Potatoes were the first vegetable grown in space.',
         'Paying yourself first — even $50/month — builds powerful savings habits.',
@@ -40,21 +39,21 @@ export default function PotatoPal() {
         'You don’t need to be rich to build wealth. You need time + consistency.',
     ];
 
-    // ─── State & animation controls ───
+    // State & animation controls
     const [showTip, setShowTip] = useState(false);
     const [tip, setTip] = useState(tips[0]);
     const controls = useAnimation();
     const navigate = useNavigate();
 
-    // ─── Easter-egg click tracking ───
+    // Easter-egg click tracking
     const [clickCount, setClickCount] = useState(0);
     const [openPrompt, setOpenPrompt] = useState(false);
 
-    // ─── Time-of-day mood ───
+    // Time-of-day mood
     const hour = new Date().getHours();
     const isNight = hour < 6 || hour > 18;
 
-    // ─── Click handler ───
+    // Click handler
     const handleClick = () => {
         // pick a random tip
         const next = tips[Math.floor(Math.random() * tips.length)];
@@ -85,7 +84,7 @@ export default function PotatoPal() {
         });
     };
 
-    // ─── Dialog handlers ───
+    // Dialog handlers
     const handlePlay = () => {
         setOpenPrompt(false);
         navigate('/spuddy-adventure');
@@ -94,7 +93,7 @@ export default function PotatoPal() {
 
     return (
         <Box>
-            {/* ─── The draggable, animated mascot ─── */}
+            {/* Draggable, animated potato dude (Spuddy) */}
             <Tooltip title="Click me for a tip!" placement="left">
                 <motion.div
                     onClick={handleClick}
@@ -140,7 +139,7 @@ export default function PotatoPal() {
                 </motion.div>
             </Tooltip>
 
-            {/* ─── The animated tip bubble ─── */}
+            {/* The animated tip bubble*/}
             <AnimatePresence>
                 {showTip && (
                     <motion.div
@@ -171,7 +170,7 @@ export default function PotatoPal() {
                 )}
             </AnimatePresence>
 
-            {/* ─── Easter-egg Prompt Dialog ─── */}
+            {/* Easter-egg Prompt Dialog */}
             <Dialog open={openPrompt} onClose={handleClose}>
                 <DialogTitle>Secret Unlocked!</DialogTitle>
                 <DialogContent>

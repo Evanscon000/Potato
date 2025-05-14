@@ -6,7 +6,6 @@ import { motion } from 'framer-motion';
 export default function WelcomePage() {
     return (
         <>
-            {/* ─── Fullscreen background (non-interactive) ─── */}
             <Box
                 sx={{
                     position: 'fixed',
@@ -19,18 +18,17 @@ export default function WelcomePage() {
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
                     zIndex: -1,
-                    pointerEvents: 'none',     // <-- allow scroll & clicks through
+                    pointerEvents: 'none',
                 }}
             />
 
-            {/* ─── Foreground content (interactive) ─── */}
             <Box
                 sx={{
                     minHeight: '100vh',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    p: 2,                      // padding so small screens can scroll if needed
+                    p: 2,
                 }}
             >
                 <Container maxWidth="sm">

@@ -75,7 +75,6 @@ export default function SpuddyGame() {
     }, []);
 
     return (
-        /* Center the game box but allow the page itself to scroll normally */
         <Box
             sx={{
                 display: 'flex',
@@ -83,10 +82,10 @@ export default function SpuddyGame() {
                 alignItems: 'center',
                 minHeight: '100vh',
                 bgcolor: '#f5f1e8',
-                p: 2,              // add some padding so box isn’t flush to window edge
+                p: 2,
             }}
         >
-            {/* The 600×600 game area */}
+            {/* 600×600 game area */}
             <Box
                 sx={{
                     position: 'relative',
