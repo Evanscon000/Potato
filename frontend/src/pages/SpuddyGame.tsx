@@ -1,16 +1,16 @@
 // src/pages/SpuddyGame.tsx
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
+import SpuddyIcon from '../components/SpuddyIcon';
 
 const STEP = 20;
 const COIN_COUNT = 8;
 const COLLIDE_DIST = 30;
 const COIN_EMOJI = '💰';
-const SPUDDY_EMOJI = '🥔';
-const GAME_SIZE = 600;
+const GAME_SIZE = 500;
 
 export default function SpuddyGame() {
     const navigate = useNavigate();
@@ -83,9 +83,14 @@ export default function SpuddyGame() {
                 minHeight: '100vh',
                 bgcolor: '#f5f1e8',
                 p: 2,
+                backgroundImage: 'url("/RaceToFinancialFreedom.png")',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+
             }}
         >
-            {/* 600×600 game area */}
+
             <Box
                 sx={{
                     position: 'relative',
@@ -190,12 +195,11 @@ export default function SpuddyGame() {
                     transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                     style={{
                         position: 'absolute',
-                        fontSize: 36,
                         userSelect: 'none',
                         zIndex: 1,
                     }}
                 >
-                    {SPUDDY_EMOJI}
+                    <SpuddyIcon size={48} />
                 </motion.div>
             </Box>
         </Box>

@@ -309,13 +309,7 @@ export default function PotatoTable({
                                                                 p.hoursPerWeek
                                                             );
                                                             return (
-                                                                <Grid
-                                                                    item
-                                                                    key={ci.label}
-                                                                    xs={12}
-                                                                    sm={6}
-                                                                    md={4}
-                                                                >
+                                                                <Grid key={ci.label}>
                                                                     <Card elevation={1} sx={{ p: 2 }}>
                                                                         <Typography
                                                                             variant="subtitle2"

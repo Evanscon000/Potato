@@ -22,8 +22,8 @@ export default function InvestmentPage() {
     // inputs
     const [principal, setPrincipal] = useState(5000);
     const [annualAdd, setAnnualAdd] = useState(3000);
-    const [ratePct, setRatePct]     = useState(7);
-    const [years, setYears]         = useState(30);
+    const [ratePct, setRatePct] = useState(7);
+    const [years, setYears] = useState(30);
 
     // outputs
     const [future, setFuture] = useState<number | null>(null);
@@ -67,7 +67,7 @@ export default function InvestmentPage() {
 
             <Paper sx={{ p: 3, mb: 4 }} elevation={3}>
                 <Grid container columns={12} spacing={2}>
-                    <Grid xs={12}>
+                    <Grid>
                         <Select fullWidth size="small" value={choice} onChange={(e) => setChoice(e.target.value as any)}>
                             <MenuItem value="custom">⬤  Custom inputs</MenuItem>
                             {profiles.map((p) => (
@@ -78,27 +78,27 @@ export default function InvestmentPage() {
                         </Select>
                     </Grid>
 
-                    <Grid xs={12} md={6}>
+                    <Grid>
                         <TextField label="Principal ($)" type="number" fullWidth
                                    value={principal} onChange={(e) => setPrincipal(+e.target.value)} />
                     </Grid>
 
-                    <Grid xs={12} md={6}>
+                    <Grid>
                         <TextField label="Annual Contribution ($)" type="number" fullWidth
                                    value={annualAdd} onChange={(e) => setAnnualAdd(+e.target.value)} />
                     </Grid>
 
-                    <Grid xs={12} md={6}>
+                    <Grid>
                         <TextField label="Annual % Return" type="number" fullWidth
                                    value={ratePct} onChange={(e) => setRatePct(+e.target.value)} />
                     </Grid>
 
-                    <Grid xs={12} md={6}>
+                    <Grid>
                         <TextField label="Years" type="number" fullWidth
                                    value={years} onChange={(e) => setYears(+e.target.value)} />
                     </Grid>
 
-                    <Grid xs={12}>
+                    <Grid>
                         <Button variant="contained" onClick={calculate}>
                             Calculate
                         </Button>

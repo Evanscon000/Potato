@@ -45,15 +45,15 @@ export default function PotatoPal() {
     const controls = useAnimation();
     const navigate = useNavigate();
 
-    // Easter-egg click tracking
+    // click tracking
     const [clickCount, setClickCount] = useState(0);
     const [openPrompt, setOpenPrompt] = useState(false);
 
-    // Time-of-day mood
+    // time of day
     const hour = new Date().getHours();
     const isNight = hour < 6 || hour > 18;
 
-    // Click handler
+    // click handler
     const handleClick = () => {
         // pick a random tip
         const next = tips[Math.floor(Math.random() * tips.length)];
@@ -84,7 +84,7 @@ export default function PotatoPal() {
         });
     };
 
-    // Dialog handlers
+    // dialog handlers
     const handlePlay = () => {
         setOpenPrompt(false);
         navigate('/spuddy-adventure');
@@ -93,7 +93,7 @@ export default function PotatoPal() {
 
     return (
         <Box>
-            {/* Draggable, animated potato dude (Spuddy) */}
+            {/* animated potato dude (Spuddy) */}
             <Tooltip title="Click me for a tip!" placement="left">
                 <motion.div
                     onClick={handleClick}
@@ -139,7 +139,7 @@ export default function PotatoPal() {
                 </motion.div>
             </Tooltip>
 
-            {/* The animated tip bubble*/}
+            {/* animated tip bubble */}
             <AnimatePresence>
                 {showTip && (
                     <motion.div
@@ -170,7 +170,7 @@ export default function PotatoPal() {
                 )}
             </AnimatePresence>
 
-            {/* Easter-egg Prompt Dialog */}
+            {/* Easter egg Prompt Dialog */}
             <Dialog open={openPrompt} onClose={handleClose}>
                 <DialogTitle>Secret Unlocked!</DialogTitle>
                 <DialogContent>

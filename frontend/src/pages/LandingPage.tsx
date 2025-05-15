@@ -32,12 +32,12 @@ export default function LandingPage() {
             </Stepper>
 
             <Alert severity="info" sx={{ mb: 3 }}>
-                You have been working for potatoes... don't believe us, try it out for yourself
+                You have been working for potatoes... don't believe me, try it out for yourself
             </Alert>
             <Divider sx={{ mb: 4 }} />
 
             <Grid container spacing={4} columns={12}>
-                <Grid xs={12} md={5}>
+                <Grid>
                     <PotatoForm
                         onCreate={(it) => { setItems((p) => [...p, it]); setStep(1); }}
                         onRecommendation={(pct, it) => {
@@ -58,7 +58,7 @@ export default function LandingPage() {
                     )}
                 </Grid>
 
-                <Grid xs={12} md={7}>
+                <Grid>
                     <PotatoTable
                         items={items}
                         onSave={(u) => setItems((p) => p.map((t) => (t.id === u.id ? u : t)))}
